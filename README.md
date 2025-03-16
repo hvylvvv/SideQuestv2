@@ -1,16 +1,25 @@
-# side_quest
+# Side Quest
 
-A new Flutter project.
+📥 Download & Install
+You can download the latest version of SideQuest v2 directly from GitHub Releases:
 
-## Getting Started
+- Go to the Releases Page.
+- Download the latest app-release.apk file.
+- Install the APK on your Android device:
+- Open the downloaded file.
+-- If prompted, allow installation from unknown sources.
+- Follow the installation steps.
+- Launch the app and start using SideQuest!
 
-This project is a starting point for a Flutter application.
+📖 About SideQuest 
+SideQuest  is a travel companion app designed to gamify vacation planning and help you make the most of your trip. Whether you're exploring a new city or revisiting a favorite destination, SideQuest v2 optimizes your routes and stops, ensuring you experience the best attractions efficiently.
 
-A few resources to get you started if this is your first Flutter project:
+✨ Features
+🎮 Gamified Experience – Earn rewards for completing side quests along your journey.
+🏆 Personalized Recommendations – Discover must-visit spots tailored to your interests.
+🔄 Dynamic Re-Routing – Adjust plans in real-time based on preferences or unexpected changes.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Built with Flutter and powered by Firebase, SideQuest v2 ensures a seamless and enjoyable travel experience.
+
+
