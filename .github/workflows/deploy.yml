@@ -23,6 +23,14 @@ jobs:
         run: |
               flutter --version
               dart --version
+              
+      - name: Manually Install Dart 3.7.0+
+        run: |
+          sudo apt-get remove dart -y
+          sudo apt-get update
+          sudo apt-get install dart
+          dart --version
+
 
       - name: Install dependencies
         run: flutter pub get
