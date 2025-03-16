@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write  # Allow GitHub Actions to create and push tags
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,26 +15,18 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full history to allow tagging
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.29.2'  
-          
-
+          flutter-version: '3.29.2'
 
       - name: Install Dart 3.7.0
         uses: dart-lang/setup-dart@v1
         with:
           sdk: '3.7.0'
-
-      - name: Override Flutter's Dart Version
-        run: echo "export PATH=$(dart --version | awk '{print $NF}'):\$PATH" >> $GITHUB_ENV
-
-      - name: Verify Versions
-        run: |
-          flutter --version
-          dart --version
 
       - name: Install Dependencies
         run: flutter pub get
@@ -41,11 +36,12 @@ jobs:
 
       - name: Create Git Tag
         run: |
-          TAG_NAME="v$(date +'%Y%m%d%H%M%S')"  # Tag format: vYYYYMMDDHHMMSS
+          TAG_NAME="v$(date +'%Y%m%d%H%M%S')"  # Format: vYYYYMMDDHHMMSS
+          echo "Tagging with $TAG_NAME"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git tag $TAG_NAME
-          git push https://${{ secrets.GH_PAT }}@github.com/hvylvvv/SideQuestv2.git $TAG_NAME
+          git push origin $TAG_NAME
 
       - name: Upload APK to GitHub Releases
         uses: softprops/action-gh-release@v1
