@@ -18,6 +18,11 @@ jobs:
         with:
           flutter-version: 3.16.0 
           channel: stable
+    
+      - name: Verify Flutter and Dart Versions
+        run: |
+              flutter --version
+              dart --version
 
       - name: Install dependencies
         run: flutter pub get
