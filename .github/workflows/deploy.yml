@@ -1,0 +1,39 @@
+name: Deploy Flutter Web to GCP
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.16.0 
+          channel: stable
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build Flutter web
+        run: flutter build web --release
+
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SIDEQUEST_KEY}}
+
+      - name: Upload to Google Cloud Storage
+        run: |
+          gsutil -m rsync -r build/web gs://sidequestbucketv2
+
+      - name: Set public permissions (Optional)
+        run: |
+          gsutil -m acl ch -r -u AllUsers:R gs://sidequestbucketv2
