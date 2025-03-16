@@ -16,15 +16,18 @@ jobs:
       - name: Setup Flutter (latest stable)
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.16.0'  # Use latest stable version
+          flutter-version: latest
           channel: stable
 
-      - name: Setup Dart 3.7.0
+      - name: Install Dart 3.7.0
         uses: dart-lang/setup-dart@v1
         with:
-          sdk: '3.7.0'  # Force Dart 3.7.0
+          sdk: '3.7.0'
 
-      - name: Verify Flutter & Dart Version
+      - name: Override Flutter's Dart Version
+        run: echo "export PATH=$(dart --version | awk '{print $NF}'):\$PATH" >> $GITHUB_ENV
+
+      - name: Verify Versions
         run: |
           flutter --version
           dart --version
@@ -34,11 +37,3 @@ jobs:
 
       - name: Build APK
         run: flutter build apk --release
-
-      - name: Upload APK to Firebase App Distribution
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
-        with:
-          appId: ${{ secrets.FIREBASE_APP_ID }}
-          serviceCredentialsJson: ${{ secrets.FIREBASE_SA_KEY }}
-          groups: testers
-          file: build/app/outputs/flutter-apk/app-release.apk
