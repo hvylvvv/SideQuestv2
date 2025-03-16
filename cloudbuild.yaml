@@ -1,0 +1,40 @@
+steps:
+  # Step 1: Set up Flutter SDK
+  - name: 'gcr.io/flutter-ci/flutter'
+    args: ['flutter', '--version']
+
+  # Step 2: Install dependencies
+  - name: 'gcr.io/flutter-ci/flutter'
+    args: ['flutter', 'pub', 'get']
+
+  # Step 3: Run tests
+  - name: 'gcr.io/flutter-ci/flutter'
+    args: ['flutter', 'test']
+
+  # Step 4: Build the app for Android
+  - name: 'gcr.io/flutter-ci/flutter'
+    args: ['flutter', 'build', 'apk']
+
+  # Step 5: Build the app for iOS (MacOS required)
+  - name: 'gcr.io/flutter-ci/flutter'
+    args: ['flutter', 'build', 'ios', '--no-codesign']
+
+  # Step 6: Deploy to Firebase App Distribution (Optional)
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud firebase appdistribution:apps:list
+        gcloud firebase appdistribution:distribute ./build/app/outputs/flutter-apk/app-release.apk \
+        --app $FIREBASE_APP_ID \
+        --release-notes "New build uploaded via Cloud Build" \
+        --testers "test@example.com"
+
+timeout: "1200s"
+
+artifacts:
+  objects:
+    location: 'gs://YOUR_BUCKET_NAME/flutter-builds/'
+    paths:
+      - 'build/app/outputs/flutter-apk/app-release.apk'
