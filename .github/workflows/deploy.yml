@@ -1,9 +1,9 @@
-name: Deploy Flutter Web to GCP
+name: Build and Distribute Flutter App
 
 on:
   push:
     branches:
-      - main 
+      - main
 
 jobs:
   build-and-deploy:
@@ -16,37 +16,19 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 3.16.0 
+          flutter-version: '3.16.0'  # Use latest stable Flutter
           channel: stable
-    
-      - name: Verify Flutter and Dart Versions
-        run: |
-              flutter --version
-              dart --version
-              
-      - name: Manually Install Dart 3.7.0+
-        run: |
-          sudo apt-get remove dart -y
-          sudo apt-get update
-          sudo apt-get install dart
-          dart --version
 
-
-      - name: Install dependencies
+      - name: Install Dependencies
         run: flutter pub get
 
-      - name: Build Flutter web
-        run: flutter build web --release
+      - name: Build APK
+        run: flutter build apk --release
 
-      - name: Authenticate with Google Cloud
-        uses: google-github-actions/auth@v2
+      - name: Upload APK to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
-          credentials_json: ${{ secrets.GCP_SIDEQUEST_KEY}}
-
-      - name: Upload to Google Cloud Storage
-        run: |
-          gsutil -m rsync -r build/web gs://sidequestbucketv2
-
-      - name: Set public permissions (Optional)
-        run: |
-          gsutil -m acl ch -r -u AllUsers:R gs://sidequestbucketv2
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          serviceCredentialsJson: ${{ secrets.FIREBASE_SA_KEY }}
+          groups: testers
+          file: build/app/outputs/flutter-apk/app-release.apk
