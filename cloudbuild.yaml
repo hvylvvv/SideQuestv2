@@ -19,22 +19,12 @@ steps:
   - name: 'gcr.io/flutter-ci/flutter'
     args: ['flutter', 'build', 'ios', '--no-codesign']
 
-  # Step 6: Deploy to Firebase App Distribution (Optional)
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        gcloud firebase appdistribution:apps:list
-        gcloud firebase appdistribution:distribute ./build/app/outputs/flutter-apk/app-release.apk \
-        --app $FIREBASE_APP_ID \
-        --release-notes "New build uploaded via Cloud Build" \
-        --testers "test@example.com"
+
 
 timeout: "1200s"
 
 artifacts:
   objects:
-    location: 'gs://YOUR_BUCKET_NAME/flutter-builds/'
+    location: 'gs://side-quest/flutter-builds/'
     paths:
       - 'build/app/outputs/flutter-apk/app-release.apk'
