@@ -1,4 +1,4 @@
-name: Build and Distribute Flutter App
+name: Build and Deploy Flutter App
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,8 +19,15 @@ jobs:
           flutter-version: '3.16.0'  # Use latest stable version
           channel: stable
 
-      - name: Verify Dart Version
-        run: dart --version  # Check installed Dart version
+      - name: Setup Dart 3.7.0
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: '3.7.0'  # Force Dart 3.7.0
+
+      - name: Verify Flutter & Dart Version
+        run: |
+          flutter --version
+          dart --version
 
       - name: Install Dependencies
         run: flutter pub get
