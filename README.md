@@ -1,6 +1,6 @@
-# Side Quest
+### Side Quest
 
-📥 Download & Install
+#📥 Download & Install
 You can download the latest version of SideQuest v2 directly from GitHub Releases:
 
 - Go to the Releases Page.
@@ -11,7 +11,8 @@ You can download the latest version of SideQuest v2 directly from GitHub Release
 - Follow the installation steps.
 - Launch the app and start using SideQuest!
 
-📖 About SideQuest 
+#📖 About SideQuest 
+
 SideQuest  is a travel companion app designed to gamify vacation planning and help you make the most of your trip. Whether you're exploring a new city or revisiting a favorite destination, SideQuest v2 optimizes your routes and stops, ensuring you experience the best attractions efficiently.
 
 ✨ Features
